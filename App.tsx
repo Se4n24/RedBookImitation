@@ -1,45 +1,54 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import { NewAppScreen } from '@react-native/new-app-screen';
 import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+import { SafeAreaProvider, } from 'react-native-safe-area-context';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import Welcome from './src/modules/welcome/Welcome'
+import Login from './src/modules/login/Login'
+import HomeTab from './src/modules/home/HomeTab';
+
+const Stack = createStackNavigator();
 
 function App() {
-  const isDarkMode = useColorScheme() === 'dark';
-
   return (
     <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <AppContent />
+      <StatusBar 
+        barStyle={'dark-content'} 
+        backgroundColor={'white'}
+      />
+
+      <NavigationContainer>
+        <Stack.Navigator
+          initialRouteName='Welcome'
+          screenOptions={{
+            cardStyle: { elevation: 1 }
+          }}
+        >
+          <Stack.Screen 
+            name="Welcome" 
+            component={Welcome} 
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen 
+            name="Login" 
+            component={Login} 
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen 
+            name="HomeTab"
+            component={HomeTab}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+
     </SafeAreaProvider>
   );
 }
 
-function AppContent() {
-  const safeAreaInsets = useSafeAreaInsets();
 
-  return (
-    <View style={styles.container}>
-      <NewAppScreen
-        templateFileName="App.tsx"
-        safeAreaInsets={safeAreaInsets}
-      />
-    </View>
-  );
-}
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
+  
 });
 
 export default App;
