@@ -1,10 +1,11 @@
 import React, { use, useState }from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, Linking, TextInput, LayoutAnimation } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, Linking, TextInput, LayoutAnimation, ToastAndroid } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import { formatPhone, replaceBlank } from '../../utils/StringUtil';
 import { request } from '../../utils/request';
+import UserStore from '../../stores/UserStore';
 
 import icon_logo_main from '../../assets/icon_main_logo.png';
 import icon_unselected from '../../assets/icon_unselected.png';
@@ -33,15 +34,17 @@ export default () => {
         if(!canLogin || !selected) {
             return;
         }
-
-        const params = {
-            name: 'dagongjue',
-            pwd: '123456'
-        }
         
-        const { data } = await request('login', params)
+        const purePhone = replaceBlank(phone);
 
-        console.log('login data = ', data);
+        // 用了store的登录方法
+        UserStore.requestLogin(purePhone, pwd, (success: boolean) => {
+            if(success) {
+                navigation.replace('HomeTab')
+            }else {
+                ToastAndroid.show('登录失败，请检查账号密码', ToastAndroid.SHORT);
+            }
+        })
     }
 
     const renderQuickLogin = () => {
@@ -291,7 +294,7 @@ export default () => {
                     <TextInput placeholder='请输入密码' placeholderTextColor="#bbb" style={[inputLoginStyles.phoneInput, inputLoginStyles.pwdInput]} autoFocus={false}
                         secureTextEntry={!pwdVisible} value={pwd} onChangeText={(pwd1: string) => {
                             setPwd(pwd1);
-                            replaceBlank(phone).length === 11 && pwd.length >= 6 ? setCanLogin(true) : setCanLogin(false);
+                            replaceBlank(phone).length === 11 && pwd.length >= 5 ? setCanLogin(true) : setCanLogin(false);
                         }}
                     />
                     <TouchableOpacity onPress={() => {setPwdVisible((visible: boolean) => !visible)}}>
@@ -306,8 +309,6 @@ export default () => {
                 </View>
 
                 <TouchableOpacity disabled={!canLogin} style={inputLoginStyles.loginButton} onPress={() => {
-                    navigation.replace('HomeTab')
-                    const purePhone = replaceBlank(phone);
                     onLoginPress()
                 }}>
                     <Text style={inputLoginStyles.loginTxt}>登录</Text>
