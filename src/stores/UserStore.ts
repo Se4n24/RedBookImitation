@@ -2,6 +2,13 @@ import { request } from "../utils/request"
 import { flow } from "mobx";
 import { save } from "../utils/Storage";
 // 类似于zustand等轻量状态管理库的功能
+
+// 如果用上下文管理，需要创建Context并提供Provider（
+//       做法：createContext
+//       export const UserContext = createContext<UserStore>(new UserStore());
+//       在App.tsx中使用<UserContext.Provider value={new UserStore()}></UserContext.Provider>
+//       在需要使用的组件中使用useContext(UserContext)获取
+//）
 class UserStore {
 
     userInfo: any
@@ -28,7 +35,7 @@ class UserStore {
     //     }
     // }
 
-    // 使用flow包装的异步方法
+    // 使用flow包装的异步方法,但这是mobx的写法，需要注意
     requestLogin = flow(function*
         (this: UserStore, phone: string, pwd: string, callback: (success: boolean) => void) {
             try{
