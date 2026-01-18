@@ -1,11 +1,11 @@
 import React, { useState }from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-export default function HomeTab() {
+export default function Mine() {
 
     return (
         <View style={styles.root}>
-            <Text>Home Tab</Text>
+            <Text>Mine</Text>
         </View>
     )
 }   

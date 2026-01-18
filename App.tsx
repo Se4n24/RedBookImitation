@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Welcome from './src/modules/welcome/Welcome'
 import Login from './src/modules/login/Login'
-import HomeTab from './src/modules/home/HomeTab';
+import MainTab from './src/modules/mainTab/MainTab';
 
 const Stack = createStackNavigator();
 
@@ -34,8 +34,8 @@ function App() {
             options={{ headerShown: false }}
           />
           <Stack.Screen 
-            name="HomeTab"
-            component={HomeTab}
+            name="MainTab"
+            component={MainTab}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>
