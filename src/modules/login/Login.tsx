@@ -31,22 +31,22 @@ export default () => {
     const [canLogin, setCanLogin] = useState<boolean>(false);
 
     const onLoginPress = async () => {
-        // if(!canLogin || !selected) {
-        //     return;
-        // }
+        if(!canLogin || !selected) {
+            return;
+        }
         
-        // const purePhone = replaceBlank(phone);
+        const purePhone = replaceBlank(phone);
 
-        // // 用了store的登录方法
-        // UserStore.requestLogin(purePhone, pwd, (success: boolean) => {
-        //     if(success) {
-        //         navigation.replace('MainTab')
-        //     }else {
-        //         ToastAndroid.show('登录失败，请检查账号密码', ToastAndroid.SHORT);
-        //     }
-        // })
+        // 用了store的登录方法
+        UserStore.requestLogin(purePhone, pwd, (success: boolean) => {
+            if(success) {
+                navigation.replace('MainTab')
+            }else {
+                ToastAndroid.show('登录失败，请检查账号密码', ToastAndroid.SHORT);
+            }
+        })
 
-        navigation.replace('MainTab')
+        // navigation.replace('MainTab')
     }
 
     const renderQuickLogin = () => {
